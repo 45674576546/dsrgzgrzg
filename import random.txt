@@ -1,0 +1,48 @@
+import random
+
+def showInstructions():
+    print("Welcome to the Adventure Game!")
+    print("You wake up in a dark forest and don't know how you got there.")
+    print("Your mission is to find your way out of the forest.")
+    print("You can move north, south, east or west.")
+    print("Good luck!")
+    
+def showStatus():
+    print("---------------------------")
+    print("You are in the " + currentRoom)
+    print("Inventory: " + str(inventory))
+    if "item" in rooms[currentRoom]:
+        print("You see a " + rooms[currentRoom]["item"])
+    print("---------------------------")
+    
+rooms = {
+    "Forest": {"south": "Lake", "east": "Cave", "item": "stick"},
+    "Lake": {"north": "Forest", "east": "Mountain", "item": "fish"},
+    "Mountain": {"west": "Lake", "item": "sword"},
+    "Cave": {"west": "Forest", "north": "River", "item": "torch"},
+    "River": {"south": "Cave", "east": "Volcano", "item": "boat"},
+    "Volcano": {"west": "River", "item": "gem"}
+}
+
+inventory = []
+
+currentRoom = "Forest"
+
+showInstructions()
+
+while True:
+    showStatus()
+    move = input("Which direction do you want to move? ")
+    if move == "quit":
+        break
+    if move in rooms[currentRoom]:
+        currentRoom = rooms[currentRoom][move]
+        if "item" in rooms[currentRoom]:
+            inventory.append(rooms[currentRoom]["item"])
+            print("You picked up a " + rooms[currentRoom]["item"] + "!")
+            del rooms[currentRoom]["item"]
+    else:
+        print("You can't go that way!")
+    if currentRoom == "Volcano":
+        print("Congratulations! You found the gem and escaped the forest!")
+        break
